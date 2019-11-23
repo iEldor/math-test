@@ -1,11 +1,13 @@
+from datetime import datetime
 from random import randint
 from common import *
 import time
 
-number_of_questions = 15
+number_of_questions = 100
 timeout = 10
 assessment = []
 
+start_time = datetime.now()
 for i in range(1, number_of_questions + 1):
     factor_1 = randint(0,12)
     factor_2 = randint(0,12)
@@ -38,13 +40,17 @@ for i in range(1, number_of_questions + 1):
         except ValueError:
             print(f'[{user_answer}] is not a valid entry. Please try again ')
             continue
+end_time = datetime.now()
+time_spent = (end_time - start_time).total_seconds() / 60.0
+
 correct_answers = len([question['score'] for question in assessment if question['score'] == 'PASS'])
 incorrect_answers = len([question['score'] for question in assessment if question['score'] == 'FAIL'])
 print(f'''
-        Total Questions: {number_of_questions}
-        Correct Answers: {correct_answers}
-        Incorrec Answers: {incorrect_answers}
-        Score: {100*correct_answers/number_of_questions} %
+        Total Questions:        {number_of_questions}
+        Correct Answers:        {correct_answers}
+        Incorrect Answers:      {incorrect_answers}
+        Score:                  {100*correct_answers/number_of_questions} %
+        Time Spent:             {time_spent} minutes
 ''')
 
 for question in assessment:
